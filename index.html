@@ -1,0 +1,757 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- 	Jordan Le and Powell Hamner Made this Awesome Game
+            Take that Hasbro! ... please dont sue... -->
+    <meta charset="utf-8" />
+
+    <title>Guess Who!</title>
+
+    <!--Page's Css-->
+    <link href="css/main.css" type="text/css" rel="stylesheet" />
+
+    <!--Get javascript for clicking function-->
+    <script src="//code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
+
+
+    <!--JQuery to load variables and functions-->
+    <script type="text/javascript">
+        //JSON Characters
+        //ID, Name, hair color, hair length, image, Images, happy, jewelery, hat, facial Hair, glasses, gender},
+
+        var characters = [
+            { "ID": "0", "Name": "Paul", "hair_color": "white", "hair_length": "short", "image": "Images//Paul.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "true", "gender": "male" },
+            { "ID": "1", "Name": "Jill", "hair_color": "blond", "hair_length": "short", "image": "Images//Jill.png", "happy": "false", "jewelery": "true", "hat": "false", "facialHair": "false", "glasses": "true", "gender": "female" },
+            { "ID": "2", "Name": "Alice", "hair_color": "red", "hair_length": "long", "image": "Images//Alice.png", "happy": "false", "jewelery": "true", "hat": "false", "facialHair": "false", "glasses": "false", "gender": "female" },
+            { "ID": "3", "Name": "Anne", "hair_color": "brown", "hair_length": "short", "image": "Images//Anne.png", "happy": "false", "jewelery": "true", "hat": "false", "facialHair": "false", "glasses": "false", "gender": "female" },
+            { "ID": "4", "Name": "Art", "hair_color": "black", "hair_length": "short", "image": "Images//Art.png", "happy": "false", "jewelery": "false", "hat": "false", "facialHair": "true", "glasses": "false", "gender": "male" },
+            { "ID": "5", "Name": "Bill", "hair_color": "brown", "hair_length": "bald", "image": "Images//Bill.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "true", "glasses": "false", "gender": "male" },
+            { "ID": "6", "Name": "Bob", "hair_color": "brown", "hair_length": "short", "image": "Images//Bob.png", "happy": "false", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "false", "gender": "male" },
+            { "ID": "7", "Name": "Brian", "hair_color": "brown", "hair_length": "short", "image": "Images//Brian.png", "happy": "false", "jewelery": "false", "hat": "true", "facialHair": "false", "glasses": "false", "gender": "male" },
+            { "ID": "8", "Name": "Carol", "hair_color": "red", "hair_length": "short", "image": "Images//Carol.png", "happy": "true", "jewelery": "true", "hat": "true", "facialHair": "false", "glasses": "true", "gender": "female" },
+            { "ID": "9", "Name": "David", "hair_color": "blond", "hair_length": "short", "image": "Images//David.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "true", "glasses": "false", "gender": "male" },
+            { "ID": "10", "Name": "Eric", "hair_color": "blond", "hair_length": "short", "image": "Images//Eric.png", "happy": "true", "jewelery": "false", "hat": "true", "facialHair": "false", "glasses": "false", "gender": "male" },
+            { "ID": "11", "Name": "Frank", "hair_color": "red", "hair_length": "short", "image": "Images//Frank.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "false", "gender": "male" },
+            { "ID": "12", "Name": "Henry", "hair_color": "red", "hair_length": "bald", "image": "Images//Henry.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "false", "gender": "male" },
+            { "ID": "13", "Name": "Mike", "hair_color": "brown", "hair_length": "short", "image": "Images//Mike.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "true", "glasses": "false", "gender": "male" },
+            { "ID": "14", "Name": "Phil", "hair_color": "black", "hair_length": "short", "image": "Images//Phil.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "true", "glasses": "false", "gender": "male" },
+            { "ID": "15", "Name": "Sam", "hair_color": "white", "hair_length": "bald", "image": "Images//Sam.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "true", "gender": "male" },
+            { "ID": "16", "Name": "Susan", "hair_color": "white", "hair_length": "long", "image": "Images//Susan.png", "happy": "true", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "false", "gender": "female" },
+            { "ID": "17", "Name": "Tom", "hair_color": "black", "hair_length": "bald", "image": "Images//Tom.png", "happy": "false", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "true", "gender": "male" },
+            { "ID": "18", "Name": "Anita", "hair_color": "blond", "hair_length": "long", "image": "Images//Anita.png", "happy": "false", "jewelery": "false", "hat": "false", "facialHair": "false", "glasses": "false", "gender": "female" },
+            { "ID": "19", "Name": "Maria", "hair_color": "brown", "hair_length": "long", "image": "Images//Maria.png", "happy": "true", "jewelery": "false", "hat": "true", "facialHair": "false", "glasses": "false", "gender": "female" }
+        ];
+
+        //Get random index for Answer to game
+        var number = 1 + Math.floor(Math.random() * 18);
+
+        var CountQuestions = 3;
+
+        //Get the character using the random index
+        var Who = characters[number];
+
+        //Set answers to questions
+        var WhoImage = Who.image;
+        var WhoHappy = Who.happy;
+        var WhoName = Who.Name;
+        var WhoHair = Who.hair_color;
+        var WhoJewelery = Who.jewelery;
+        var WhoHat = Who.hat;
+        var WhoFacialHair = Who.facialHair;
+        var WhoGlasses = Who.glasses;
+        var WhoHairLength = Who.hair_length;
+        var WhoGender = Who.gender;
+
+        function endGame() {
+            var WhoDatIs = "#" + WhoName
+            $('img.character').fadeTo(1000, 0);
+            $("div#QL").fadeTo(1000, 0);
+
+            $(WhoDatIs).fadeTo(1000, 1)
+
+            $("#progressbar").remove();
+
+        }
+
+    </script>
+
+</head>
+
+
+
+
+<body>
+    <img id="banner" src="Images/guesswho_1.jpg" />
+    <br />
+    <div id="Rules">
+
+        <p>Ask questions from the Drop Down List. You can ask up to three questions</p>
+        <p>Click on an image to make a guess</p>
+        <p>Be quick! You only have 50 Seconds!</p>
+
+    </div>
+    <br />
+    <div id="QL">
+        <h1 id="Question"></h1>
+        <!--List of Questions-->
+
+        <select name="QuestionList">
+            <option value="0">Do they have black hair?</option>
+            <option value="1">Do they have red hair?</option>
+            <option value="2">Do they have blond hair?</option>
+            <option value="3">Do they have white hair?</option>
+            <option value="3">Do they have brown hair?</option>
+            <option value="4">Do they have long hair?</option>
+            <option value="5">Do they have short hair?</option>
+            <option value="6">Do they wear glasses?</option>
+            <option value="7">Do they have facial hair?</option>
+            <option value="8">Do they wear a hat?</option>
+            <option value="9">Are they wearing jewelery?</option>
+            <option value="10">Are they Happy?</option>
+            <option value="11">Are they a man?</option>
+            <option value="12">Are they a woman?</option>
+            <option value="13">Are they bald?</option>
+        </select>
+
+        <button id="ConfirmQuestion">Ask Question</button>
+    </div>
+
+
+
+    </div>
+    
+    <!-- JQuery to update h1 to reflect question selected
+        heavily influenced by this example: http://api.jquery.com/change/
+        -->
+
+
+
+    <div id="askedQuestions"></div>
+
+    <script>
+
+        $("select")
+          .change(function () {
+              var str = "";
+              $("select option:selected").each(function () {
+                  str += $(this).text() + " ";
+              });
+              $("#Question").text(str);
+          })
+          .change();
+
+        //Add more message detail
+
+        $(document).ready(function () {
+
+            $("#progressbar").progressbar({ value: 0 });
+            var tick_interval = 1;
+            var tick_increment = 1;
+            var tick_function = function () {
+                var value = $("#progressbar").progressbar("option", "value");
+                value += tick_increment;
+                $("#progressbar").progressbar("option", "value", value);
+                window.setTimeout(tick_function, tick_interval * 1000);
+                if (value == 100) {
+                    endGame();
+                }
+
+            };
+            window.setTimeout(tick_function, tick_interval * 1000);
+
+            $('#tries').text("Tries Left: " + CountQuestions);
+
+            $('#ConfirmQuestion').click(function () {
+                var selectedQuestion = $('#Question').text();
+                var message = "";
+
+
+                //Question Switch
+                switch ($.trim(selectedQuestion)) {
+                    //Black Hair
+                    case "Do they have black hair?":
+                        if (WhoHair == 'black') {
+                            message = 'yes, they do have black hair';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+
+                        }
+                        else {
+                            message = 'no, they do not have black hair';
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+
+                        }
+                        alert(message);
+                        break;
+
+                        //Blond Hair
+                    case "Do they have blond hair?":
+                        if (WhoHair == 'blond') {
+                            message = 'yes';
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                        }
+
+                        alert(message);
+                        break;
+
+                        //Red Hair
+                    case "Do they have red hair?":
+                        if (WhoHair == 'red') {
+                            message = 'yes';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+
+                        }
+                        else {
+                            message = 'no';
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                        //white hair
+                    case "Do they have white hair?":
+                        if (WhoHair == 'white') {
+                            message = 'yes';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+
+                        }
+                        else {
+                            message = 'no';
+
+
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                        //brown hair
+                    case "Do they have brown hair?":
+                        if (WhoHair == 'brown') {
+                            message = 'yes';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+
+                        }
+                        alert(message);
+                        break;
+
+                        //long hair
+                    case "Do they have long hair?":
+                        if (WhoHairLength == 'long') {
+                            message = 'yes';
+
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                        //short hair
+                    case "Do they have short hair?":
+                        if (WhoHairLength == 'short') {
+                            message = 'yes';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                        //bald
+                    case "Are they bald?":
+                        if (WhoHairLength == 'bald') {
+                            message = 'yes';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+
+                        }
+                        else {
+                            message = 'no';
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                        //gender - man
+                    case "Are they a man?":
+                        if (WhoGender == 'male') {
+                            message = 'yes';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                        //gender - woman
+                    case "Are they a woman?":
+                        if (WhoGender == 'female') {
+                            message = 'yes';
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+
+                        }
+                        else {
+                            message = 'no';
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+
+
+                    case "Are they Happy?":
+                        alert(WhoHappy);
+                        if (WhoHappy.match(true)) {
+                            message = 'yes';
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+
+                        }
+                        alert(message);
+                        break;
+
+                    case "Are they wearing jewelery?":
+                        if (WhoJewelery.match(true)) {
+                            message = 'yes';
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                    case "Do they wear a hat?":
+                        if (WhoHat.match(true)) {
+                            message = 'yes';
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                    case "Do they have facial hair?":
+                        if (WhoFacialHair.match(true)) {
+                            message = 'yes';
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+                    case "Do they wear glasses?":
+                        if (WhoGlasses.match(true)) {
+                            message = 'yes';
+
+                            $('#Bob').fadeTo(1000, 0);
+                            $('#Brian').fadeTo(1000, 0);
+                            $('#David').fadeTo(1000, 0);
+                            $('#Eric').fadeTo(1000, 0);
+                            $('#Mike').fadeTo(1000, 0);
+                            $('#Henry').fadeTo(1000, 0);
+                            $('#Frank').fadeTo(1000, 0);
+                            $('#Art').fadeTo(1000, 0);
+                            $('#Phil').fadeTo(1000, 0);
+                            $('#Bill').fadeTo(1000, 0);
+                            $('#Anita').fadeTo(1000, 0);
+                            $('#Alice').fadeTo(1000, 0);
+                            $('#Susan').fadeTo(1000, 0);
+                            $('#Anne').fadeTo(1000, 0);
+                            $('#Maria').fadeTo(1000, 0);
+                        }
+                        else {
+                            message = 'no';
+
+                            $('#Carol').fadeTo(1000, 0);
+                            $('#Paul').fadeTo(1000, 0);
+                            $('#Sam').fadeTo(1000, 0);
+                            $('#Tom').fadeTo(1000, 0);
+                            $('#Jill').fadeTo(1000, 0);
+                        }
+                        alert(message);
+                        break;
+
+
+                    default:
+                        break;
+                }
+                CountQuestions -= 1;
+                if (CountQuestions == 0) {
+                    $("div#QL").fadeTo(1000, 0);
+                    $('#tries').text("Time to Pick!");
+                }
+                else {
+                    $('#tries').text("Tries Left: " + CountQuestions);
+                }
+
+            });
+        });
+
+
+
+    </script>
+    <div id="tries"></div>
+    <div id="progressbar"></div>
+
+
+    <div id="Chars">
+        <!--Add Divs surrounding each one for hiding-->
+        <div id="InnerChar">
+            <img class="character" id="Alice" src="Images/Alice.png" />
+            <img class="character" id="Anita" src="Images/Anita.png" />
+            <img class="character" id="Anne" src="Images/Anne.png" />
+            <img class="character" id="Art" src="Images/Art.png" />
+            <img class="character" id="Bill" src="Images/Bill.png" />
+            <img class="character" id="Bob" src="Images/Bob.png" />
+            <img class="character" id="Brian" src="Images/Brian.png" />
+            <img class="character" id="Carol" src="Images/Carol.png" />
+            <img class="character" id="David" src="Images/David.png" />
+            <img class="character" id="Eric" src="Images/Eric.png" />
+            <img class="character" id="Frank" src="Images/Frank.png" />
+            <img class="character" id="Henry" src="Images/Henry.png" />
+            <img class="character" id="Jill" src="Images/Jill.png" />
+            <img class="character" id="Mike" src="Images/Mike.png" />
+            <img class="character" id="Paul" src="Images/Paul.png" />
+            <img class="character" id="Phil" src="Images/Phil.png" />
+            <img class="character" id="Sam" src="Images/Sam.png" />
+            <img class="character" id="Susan" src="Images/Susan.png" />
+            <img class="character" id="Tom" src="Images/Tom.png" />
+            <img class="character" id="Maria" src="Images/Maria.png" />
+        </div>
+    </div>
+
+    <script>
+
+        $('.character').click(function () {
+            var ID = $(this).attr('id');
+            CountQuestions -= 1;
+
+            if (ID == WhoName) {
+
+                alert("WIN!");
+                endGame();
+                $('#tries').text("Winner!");
+            }
+            else {
+                $(this).fadeTo(1000, 0);
+                alert("wrong...");
+
+                if (CountQuestions == 0) {
+                    $("div#QL").fadeTo(1000, 0);
+                    $('#tries').text("Time to Guess Who!");
+                }
+
+                else if (CountQuestions < 0) {
+                    $('#tries').text("Lost! Try Again!");
+                    endGame();
+                }
+
+                else {
+                    $('#tries').text("Tries Left: " + CountQuestions);
+                }
+
+            }
+        });
+
+
+    </script>
+
+
+    <div id="controls">
+        <button id="refresh">Start Over</button>
+        <script>
+            $('#refresh').click(function () {
+                location.reload();
+            });
+
+        </script>
+
+        <button id="cheat">Surrender</button>
+        <script>
+            $('#cheat').click(function () {
+                alert(WhoName);
+                endGame();
+            });
+        </script>
+    </div>
+</body>
+</html>
